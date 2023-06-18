@@ -1,0 +1,89 @@
+/* Quiz container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 40px;
+  text-align: center;
+  background-color: lightcyan;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+/* Welcome line */
+.container::before {
+  content: "Welcome to the Quiz Section  ";
+
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #333;
+  color: #fff;
+  padding: 5px 10px;
+  border-radius: 5px;
+  white-space: nowrap;
+  animation: moveLine 8s linear infinite;
+}
+
+@keyframes moveLine {
+  0% {
+    left: 100%;
+  }
+  100% {
+    left: -100%;
+  }
+}
+
+/* Quiz title */
+h1 {
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 30px;
+}
+
+/* Quiz question */
+#quiz p {
+  margin-bottom: 20px;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Quiz choices */
+.choice {
+  display: inline-block;
+  margin: 10px;
+  padding: 10px 20px;
+  background-color: #e0e0e0;
+  color: #333;
+  cursor: pointer;
+  border-radius: 5px;
+  transition: background-color 0.3s ease;
+}
+
+.choice:hover {
+  background-color: #ccc;
+}
+
+/* Submit button */
+#submit {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background-color: #4CAF50;
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit:hover {
+  background-color: deeppink;
+}
+
+/* Quiz results */
+#results {
+  margin-top: 20px;
+  font-size: 20px;
+  font-weight: bold;
+}
