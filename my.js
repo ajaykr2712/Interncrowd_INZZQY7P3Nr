@@ -1,4 +1,52 @@
-// Define your questions and answers as an array of objects
+class Quiz {
+  constructor(questions) {
+    this.questions = questions;
+    this.currentQuestionIndex = 0;
+    this.score = 0;
+    this.quizContainer = document.getElementById("quiz");
+    this.resultsContainer = document.getElementById("results");
+    this.submitButton = document.getElementById("submit");
+    this.submitButton.addEventListener("click", () => this.showResults());
+    this.displayQuestion();
+  }
+
+  displayQuestion() {
+    this.quizContainer.innerHTML = "";
+    const question = this.questions[this.currentQuestionIndex];
+    const questionText = document.createElement("p");
+    questionText.textContent = question.question;
+    this.quizContainer.appendChild(questionText);
+    question.choices.forEach((choice, index) => {
+      const choiceElement = document.createElement("div");
+      choiceElement.innerHTML = choice;
+      choiceElement.classList.add("choice");
+      choiceElement.setAttribute("data-index", index);
+      choiceElement.addEventListener("click", (event) => this.handleChoiceClick(event));
+      this.quizContainer.appendChild(choiceElement);
+    });
+  }
+
+  handleChoiceClick(event) {
+    const selectedChoice = event.target;
+    const selectedAnswer = parseInt(selectedChoice.getAttribute("data-index"));
+    if (selectedAnswer === this.questions[this.currentQuestionIndex].correctAnswer) {
+      this.score++;
+    }
+    this.currentQuestionIndex++;
+    if (this.currentQuestionIndex === this.questions.length) {
+      this.showResults();
+    } else {
+      this.displayQuestion();
+    }
+  }
+
+  showResults() {
+    this.quizContainer.style.display = "none";
+    this.submitButton.style.display = "none";
+    this.resultsContainer.textContent = `You scored ${this.score} out of ${this.questions.length}!`;
+  }
+}
+
 const questions = [
   {
     question: "What does HTML stand for?",
@@ -15,108 +63,7 @@ const questions = [
     choices: ["Just Saying", "Java Symbol", "JavaScript"],
     correctAnswer: 2
   },
-  {
-    question: "What is the capital of India?",
-    choices: ["Mumbai", "Vizag", "New Delhi"],
-    correctAnswer: 2
-  },
-  {
-    question: "What is the largest planet in our solar system?",
-    choices: ["Jupiter", "Saturn", "Neptune"],
-    correctAnswer: 0
-  },
-  {
-    question: "Which is the best Intern platform for students?",
-    choices: ["Intern Crowd", "Oasis InfoByte", "Bharat Intern"],
-    correctAnswer: 0
-  },
-  {
-    question: "What is the abbreviation of OS?",
-    choices: ["Ordering system", "Operating system", "Operational system"],
-    correctAnswer: 1
-  },
-  {
-    question: "Who is the President of America?",
-    choices: ["Ramnath Kovind", "Joe Biden", "Barack Obama"],
-    correctAnswer: 1
-  },
-
-  {
-    question: "Who is the biggest Pan India Star?",
-    choices: ["Prabhas", "Salman Khan", "Vijay  Thalapathy"],
-    correctAnswer: 0
-  },
-
-  {
-    question: "Which is the biggest River in the world?",
-    choices: ["Nile", "Ganges", "Amazon"],
-    correctAnswer: 2
-  },
+  // Add more questions as needed
 ];
 
-// Variables to track the current question and score
-let currentQuestion = 0;
-let score = 0;
-
-// Function to display the current question
-function displayQuestion() {
-  const quizContainer = document.getElementById("quiz");
-  quizContainer.innerHTML = "";
-
-  // Display question
-  const questionText = document.createElement("p");
-  questionText.textContent = questions[currentQuestion].question;
-  quizContainer.appendChild(questionText);
-
-  // Display choices
-  const choices = questions[currentQuestion].choices;
-  for (let i = 0; i < choices.length; i++) {
-    const choice = document.createElement("div");
-    choice.innerHTML = choices[i];
-    choice.classList.add("choice");
-    choice.setAttribute("data-index", i); // Store the index of the choice as a data attribute
-    quizContainer.appendChild(choice);
-  }
-
-  // Attach click event listeners to choices
-  const choiceElements = document.getElementsByClassName("choice");
-  for (let i = 0; i < choiceElements.length; i++) {
-    choiceElements[i].addEventListener("click", handleChoiceClick);
-  }
-}
-
-// Function to handle the choice click event
-function handleChoiceClick(event) {
-  const selectedChoice = event.target;
-  const selectedAnswer = parseInt(selectedChoice.getAttribute("data-index")); // Get the selected choice index as an integer
-
-  // Check if the answer is correct
-  if (selectedAnswer === questions[currentQuestion].correctAnswer) {
-    score++;
-  }
-
-  // Move to the next question
-  currentQuestion++;
-
-  // Check if the quiz is over
-  if (currentQuestion === questions.length) {
-    showResults();
-  } else {
-    displayQuestion();
-  }
-}
-
-// Function to display the final quiz results
-function showResults() {
-  const quizContainer = document.getElementById("quiz");
-  quizContainer.style.display = "none";
-
-  const submitButton = document.getElementById("submit");
-  submitButton.style.display = "none";
-
-  const resultsContainer = document.getElementById("results");
-  resultsContainer.textContent = `You scored ${score} out of ${questions.length}!`;
-}
-
-// Start the quiz
-displayQuestion();
+new Quiz(questions);
